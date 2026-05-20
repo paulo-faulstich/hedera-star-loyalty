@@ -1,8 +1,10 @@
-# Hedera Loyalty Token Prototype
+# Hedera Star Loyalty
 
-A small Node.js prototype that mints a fungible loyalty token on the Hedera testnet, attaches a 1% royalty custom fee, transfers it between two accounts, and logs the event to an HCS topic for an immutable audit trail.
+A working loyalty token prototype on the Hedera testnet — fungible **STAR** with a 1% on-chain royalty, every event logged to a Hedera Consensus Service audit topic, and a persona-driven dashboard (Brand / Member / Platform) to interact with it live.
 
-Built as a learning exercise to feel the `@hashgraph/sdk` ergonomics first-hand — not production code.
+https://github.com/user-attachments/assets/cbd723ff-b292-4036-a64a-e82653c36995
+
+Built to explore `@hashgraph/sdk` first-hand. Not production code — but every behavior is a real protocol primitive, not a contract simulation.
 
 ## What it demonstrates
 
