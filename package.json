@@ -1,0 +1,27 @@
+{
+  "name": "hashgraph",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "connect": "node scripts/00-test-connection.js",
+    "create-accounts": "node scripts/01-create-accounts.js",
+    "mint-token": "node scripts/02-mint-token.js",
+    "add-fee": "node scripts/03-add-custom-fee.js",
+    "associate": "node scripts/04-associate-token.js",
+    "transfer": "node scripts/05-transfer.js",
+    "create-topic": "node scripts/06-create-topic.js",
+    "submit-message": "node scripts/07-submit-message.js",
+    "summary": "node scripts/99-summary.js",
+    "reset-token": "node scripts/97-reset-token-state.js",
+    "web": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@hashgraph/sdk": "^2.81.0",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
+  }
+}

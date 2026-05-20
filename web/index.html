@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Loyalty</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="aurora" aria-hidden="true">
+      <span class="aurora-blob aurora-blob-1"></span>
+      <span class="aurora-blob aurora-blob-2"></span>
+      <span class="aurora-blob aurora-blob-3"></span>
+    </div>
+
+    <header>
+      <div class="header-inner">
+        <a href="#home" class="wordmark" aria-label="Home">
+          <span class="wordmark-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2l2.7 7.5H22l-6.2 4.6L18.5 21 12 16.5 5.5 21l2.7-6.9L2 9.5h7.3L12 2z"/>
+            </svg>
+          </span>
+          <span class="wordmark-text">
+            <span class="token-name">Loyalty</span>
+          </span>
+          <span class="wordmark-badge">Hedera testnet</span>
+        </a>
+
+        <nav class="persona-nav" aria-label="Views">
+          <a href="#home" data-view="home" class="nav-item">
+            <span class="nav-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 11l9-8 9 8"/>
+                <path d="M5 10v10h14V10"/>
+              </svg>
+            </span>
+            <span class="nav-label">Home</span>
+          </a>
+          <a href="#brand" data-view="brand" class="nav-item">
+            <span class="nav-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2 22 12 12 22 2 12z"/>
+              </svg>
+            </span>
+            <span class="nav-label">Brand</span>
+          </a>
+          <a href="#member" data-view="member" class="nav-item">
+            <span class="nav-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3l2.7 6.3H21l-5.1 4.1 2 6.6L12 16.4 6.1 20l2-6.6L3 9.3h6.3L12 3z"/>
+              </svg>
+            </span>
+            <span class="nav-label">Member</span>
+          </a>
+          <a href="#platform" data-view="platform" class="nav-item">
+            <span class="nav-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 7l9-4 9 4-9 4-9-4z"/>
+                <path d="M3 12l9 4 9-4"/>
+                <path d="M3 17l9 4 9-4"/>
+              </svg>
+            </span>
+            <span class="nav-label">Platform</span>
+          </a>
+        </nav>
+
+        <div class="header-status" id="header-status">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span id="status-text">Loading…</span>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- HOME -->
+      <section class="view view-home" id="view-home" hidden>
+        <div class="hero">
+          <div class="hero-left">
+            <p class="kicker">
+              <span class="kicker-dot"></span> A loyalty token prototype
+            </p>
+            <h2 class="hero-title">
+              Loyalty, native<br />
+              to <span class="text-accent">Hedera</span>.
+            </h2>
+            <p class="hero-sub">
+              A working merchant-loyalty system using
+              <strong>HTS custom fees</strong> for on-chain royalties and
+              <strong>HCS</strong> for an immutable audit log. No smart
+              contracts — every behavior is a protocol primitive.
+            </p>
+            <div class="hero-ctas">
+              <a href="#brand" class="cta cta-primary">
+                Try the demo <span class="cta-arrow" aria-hidden="true">→</span>
+              </a>
+              <a href="#platform" class="cta cta-ghost">Inspect on-chain state</a>
+            </div>
+          </div>
+          <aside class="hero-aside">
+            <div class="stat-card">
+              <div class="stat-card-eyebrow">Live from testnet</div>
+              <div class="stat-list">
+                <div class="stat-row">
+                  <span class="stat-row-label">Rewards issued</span>
+                  <span class="stat-row-value" id="hero-stat-rewards">—</span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-row-label">Royalty earned</span>
+                  <span class="stat-row-value" id="hero-stat-royalty">—</span>
+                </div>
+                <div class="stat-row">
+                  <span class="stat-row-label">HCS events</span>
+                  <span class="stat-row-value" id="hero-stat-events">—</span>
+                </div>
+              </div>
+              <div class="stat-card-foot">
+                Reads directly from the public Hedera mirror node.
+              </div>
+            </div>
+          </aside>
+        </div>
+
+        <section class="home-section">
+          <header class="section-head">
+            <p class="section-eyebrow">Three primitives</p>
+            <h3 class="section-title-lg">What the prototype demonstrates</h3>
+          </header>
+          <div class="pillar-grid">
+            <article class="pillar">
+              <div class="pillar-num">01</div>
+              <h4 class="pillar-title">Custom fees enforced by consensus</h4>
+              <p class="pillar-body">
+                A <code>CustomFractionalFee</code> attaches to the token, not
+                to a contract. Every third-party transfer routes 1% to the
+                merchant automatically — no Solidity, no
+                <code>transfer()</code> override. The fee is part of the
+                protocol message, settled by the network.
+              </p>
+            </article>
+            <article class="pillar">
+              <div class="pillar-num">02</div>
+              <h4 class="pillar-title">Audit log you don't have to build</h4>
+              <p class="pillar-body">
+                Every reward and redemption emits a JSON event to a Hedera
+                Consensus Service topic. Messages get a global consensus
+                timestamp and a monotonic sequence number. The audit log
+                <em>is</em> the chain.
+              </p>
+            </article>
+            <article class="pillar">
+              <div class="pillar-num">03</div>
+              <h4 class="pillar-title">
+                Granular governance via capability keys
+              </h4>
+              <p class="pillar-body">
+                A token can carry seven distinct optional keys —
+                <code>admin</code>, <code>supply</code>, <code>freeze</code>,
+                <code>kyc</code>, <code>wipe</code>, <code>pause</code>,
+                <code>feeSchedule</code>. Each can be a different signer.
+                Unset keys are permanently absent.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="home-section">
+          <header class="section-head">
+            <p class="section-eyebrow">Walkthrough</p>
+            <h3 class="section-title-lg">How it works, step by step</h3>
+          </header>
+          <ol class="steps">
+            <li class="step">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <h4>The brand mints the token</h4>
+                <p>
+                  10,000 <span class="token-sym">tokens</span>, fungible, 6
+                  decimals, finite supply, treasury = merchant.
+                  <code>feeScheduleKey</code> set so the fee schedule can be
+                  updated later.
+                </p>
+              </div>
+            </li>
+            <li class="step">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <h4>The brand attaches a 1% royalty fee</h4>
+                <p>
+                  <code>TokenFeeScheduleUpdateTransaction</code> with a
+                  <code>CustomFractionalFee</code> (1/100, inclusive, collector
+                  = merchant). Fee logic lives in token metadata, not in client
+                  code.
+                </p>
+              </div>
+            </li>
+            <li class="step">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <h4>The customer associates the token</h4>
+                <p>
+                  Hedera requires explicit opt-in to receive an HTS token
+                  (<code>TokenAssociateTransaction</code>). Signed by the
+                  receiving account — the protocol-level anti-spam mechanism.
+                </p>
+              </div>
+            </li>
+            <li class="step">
+              <div class="step-num">4</div>
+              <div class="step-content">
+                <h4>Reward triggers a fee assessment</h4>
+                <p>
+                  Operator sends <span class="token-sym">tokens</span> to the
+                  customer. The network assesses the 1% fee and credits the
+                  merchant in the same transaction.
+                  <code>record.assessedCustomFees</code> proves it.
+                </p>
+              </div>
+            </li>
+            <li class="step">
+              <div class="step-num">5</div>
+              <div class="step-content">
+                <h4>The event lands in the audit log</h4>
+                <p>
+                  <code>TopicMessageSubmitTransaction</code> writes a JSON
+                  event with sender, receiver, amount, and assessed fees. The
+                  dashboard reads it back from the mirror node seconds later.
+                </p>
+              </div>
+            </li>
+          </ol>
+        </section>
+
+        <section class="home-section">
+          <header class="section-head">
+            <p class="section-eyebrow">Architecture</p>
+            <h3 class="section-title-lg">
+              Browser writes through a server. Reads bypass it.
+            </h3>
+            <p class="section-lead">
+              Private keys live on the local Node server, never in the browser.
+              Writes are authenticated; reads hit the public mirror node
+              directly — the same separation any real loyalty backend would
+              have.
+            </p>
+          </header>
+          <div class="arch-wrap">
+            <svg
+              viewBox="0 0 800 380"
+              class="arch-diagram"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-label="Architecture diagram"
+            >
+              <defs>
+                <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                  <path d="M0 0L10 5L0 10z" fill="currentColor" />
+                </marker>
+                <marker id="arrow-mute" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+                  <path d="M0 0L10 5L0 10z" fill="currentColor" opacity="0.55" />
+                </marker>
+              </defs>
+
+              <g class="node node-primary">
+                <rect x="280" y="20" width="240" height="74" rx="16" />
+                <text x="400" y="52" text-anchor="middle" class="node-title">Browser</text>
+                <text x="400" y="72" text-anchor="middle" class="node-sub">Home · Brand · Member · Platform</text>
+              </g>
+              <g class="node node-server">
+                <rect x="60" y="170" width="240" height="74" rx="16" />
+                <text x="180" y="202" text-anchor="middle" class="node-title">Node server</text>
+                <text x="180" y="222" text-anchor="middle" class="node-sub">holds keys · signs txs · /api</text>
+              </g>
+              <g class="node node-mirror">
+                <rect x="500" y="170" width="240" height="74" rx="16" />
+                <text x="620" y="202" text-anchor="middle" class="node-title">Hedera Mirror Node</text>
+                <text x="620" y="222" text-anchor="middle" class="node-sub">public REST · read-only</text>
+              </g>
+              <g class="node node-hedera">
+                <rect x="220" y="310" width="360" height="62" rx="16" />
+                <text x="400" y="340" text-anchor="middle" class="node-title">Hedera Testnet</text>
+                <text x="400" y="360" text-anchor="middle" class="node-sub">HTS · HCS · consensus</text>
+              </g>
+
+              <path d="M 340 94 Q 280 132 220 170" fill="none" class="arrow-write" marker-end="url(#arrow)" />
+              <text x="220" y="138" text-anchor="middle" class="arrow-label">POST /api/reward · /api/redeem</text>
+              <path d="M 460 94 Q 520 132 580 170" fill="none" class="arrow-read" marker-end="url(#arrow-mute)" />
+              <text x="580" y="138" text-anchor="middle" class="arrow-label">fetch /api/v1/…</text>
+              <path d="M 220 244 Q 220 280 320 310" fill="none" class="arrow-write" marker-end="url(#arrow)" />
+              <text x="178" y="285" text-anchor="middle" class="arrow-label">sign + submit</text>
+              <path d="M 540 320 Q 600 280 620 244" fill="none" class="arrow-read" marker-end="url(#arrow-mute)" />
+              <text x="645" y="285" text-anchor="middle" class="arrow-label">mirrors consensus</text>
+            </svg>
+          </div>
+        </section>
+
+        <section class="home-section">
+          <header class="section-head">
+            <p class="section-eyebrow">Try every angle</p>
+            <h3 class="section-title-lg">
+              The same on-chain state, framed three ways.
+            </h3>
+          </header>
+          <div class="persona-cta-grid">
+            <a href="#brand" class="persona-cta">
+              <div class="persona-cta-mark">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 22 12 12 22 2 12z" /></svg>
+              </div>
+              <h4>Brand</h4>
+              <p>
+                Issue rewards. See royalty income roll in. The merchant
+                console.
+              </p>
+              <span class="persona-cta-arrow" aria-hidden="true">→</span>
+            </a>
+            <a href="#member" class="persona-cta">
+              <div class="persona-cta-mark">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.7 6.3H21l-5.1 4.1 2 6.6L12 16.4 6.1 20l2-6.6L3 9.3h6.3L12 3z" /></svg>
+              </div>
+              <h4>Member</h4>
+              <p>
+                Your balance, your history. Spend at the brand. The customer
+                view.
+              </p>
+              <span class="persona-cta-arrow" aria-hidden="true">→</span>
+            </a>
+            <a href="#platform" class="persona-cta">
+              <div class="persona-cta-mark">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l9-4 9 4-9 4-9-4z" /><path d="M3 12l9 4 9-4" /><path d="M3 17l9 4 9-4" /></svg>
+              </div>
+              <h4>Platform</h4>
+              <p>
+                Token schema, raw transfers, audit log. The technical reference.
+              </p>
+              <span class="persona-cta-arrow" aria-hidden="true">→</span>
+            </a>
+          </div>
+        </section>
+      </section>
+
+      <!-- BRAND -->
+      <section class="view" id="view-brand" hidden>
+        <div class="view-header">
+          <p class="kicker"><span class="kicker-dot"></span> Brand console</p>
+          <h2 class="view-title">Issue rewards. Track royalty income.</h2>
+        </div>
+
+        <div id="brand-kpis" class="kpi-grid">Loading…</div>
+
+        <div class="two-col">
+          <article class="card action-card">
+            <header class="card-head">
+              <h3 class="card-title">Issue a reward</h3>
+              <p class="card-sub">
+                Reward your customer with
+                <span class="token-sym">tokens</span>.
+                <strong>1% royalty</strong> returns to you as the brand.
+              </p>
+            </header>
+            <form id="reward-form" class="action-form">
+              <label class="field">
+                <span class="field-label">Amount</span>
+                <span class="field-input-wrap">
+                  <input
+                    type="number"
+                    name="amount"
+                    value="100"
+                    min="1"
+                    step="1"
+                    required
+                  />
+                  <span class="field-suffix token-sym">tokens</span>
+                </span>
+              </label>
+              <button type="submit" class="cta cta-primary">Reward</button>
+            </form>
+            <div class="result" id="reward-result"></div>
+          </article>
+
+          <article class="card">
+            <header class="card-head">
+              <h3 class="card-title">Customers</h3>
+              <p class="card-sub">Active loyalty member accounts.</p>
+            </header>
+            <div id="brand-customers">Loading…</div>
+          </article>
+        </div>
+
+        <article class="card">
+          <header class="card-head">
+            <h3 class="card-title">Activity</h3>
+            <p class="card-sub">Decoded from the HCS audit topic.</p>
+          </header>
+          <div id="brand-activity">Loading…</div>
+        </article>
+      </section>
+
+      <!-- MEMBER -->
+      <section class="view" id="view-member" hidden>
+        <div class="view-header">
+          <p class="kicker"><span class="kicker-dot"></span> Member view</p>
+          <h2 class="view-title">My <span class="token-name">tokens</span>.</h2>
+        </div>
+
+        <div id="member-balance-card" class="balance-hero">Loading…</div>
+
+        <article class="card action-card">
+          <header class="card-head">
+            <h3 class="card-title">Redeem with the brand</h3>
+            <p class="card-sub">
+              Spend your <span class="token-sym">tokens</span> directly. No
+              platform fee on the way back — collector exemption applies.
+            </p>
+          </header>
+          <form id="redeem-form" class="action-form">
+            <label class="field">
+              <span class="field-label">Amount</span>
+              <span class="field-input-wrap">
+                <input
+                  type="number"
+                  name="amount"
+                  value="10"
+                  min="1"
+                  step="1"
+                  required
+                />
+                <span class="field-suffix token-sym">tokens</span>
+              </span>
+            </label>
+            <button type="submit" class="cta cta-primary">Redeem</button>
+          </form>
+          <div class="result" id="redeem-result"></div>
+        </article>
+
+        <article class="card">
+          <header class="card-head">
+            <h3 class="card-title">Activity</h3>
+            <p class="card-sub">Your earn / redeem timeline.</p>
+          </header>
+          <div id="member-activity">Loading…</div>
+        </article>
+      </section>
+
+      <!-- PLATFORM -->
+      <section class="view" id="view-platform" hidden>
+        <div class="view-header">
+          <p class="kicker">
+            <span class="kicker-dot"></span> Platform console
+          </p>
+          <h2 class="view-title">Token schema. On-chain state.</h2>
+        </div>
+
+        <h3 class="block-title">Token</h3>
+        <article class="card">
+          <div id="token-card">Loading…</div>
+        </article>
+
+        <h3 class="block-title">Balances</h3>
+        <div id="balances" class="balance-grid">Loading…</div>
+
+        <h3 class="block-title">Recent transfers</h3>
+        <article class="card">
+          <div id="transfers">Loading…</div>
+        </article>
+
+        <h3 class="block-title">HCS audit log</h3>
+        <article class="card">
+          <div id="topic-messages">Loading…</div>
+        </article>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-left">
+          <span class="footer-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M12 2l2.7 7.5H22l-6.2 4.6L18.5 21 12 16.5 5.5 21l2.7-6.9L2 9.5h7.3L12 2z"/></svg>
+          </span>
+          <span>
+            Built by <strong>Paulo Faulstich</strong>
+            <span class="footer-sep">·</span>
+            <span class="muted">May 2026, Hedera testnet prototype</span>
+          </span>
+        </div>
+        <div class="footer-right muted">
+          <span
+            >Mirror node:
+            <code id="mirror-url">https://testnet.mirrornode.hedera.com</code></span
+          >
+          <span class="footer-sep">·</span>
+          <a id="hashscan-link" href="#" target="_blank" rel="noopener"
+            >Open token on HashScan ↗</a
+          >
+        </div>
+      </div>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>

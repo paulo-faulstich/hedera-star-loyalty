@@ -1,0 +1,20 @@
+# Dependencies
+node_modules/
+
+# Environment / secrets
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+
+# Editor / tooling
+.claude/
+.vscode/
+.idea/
+*.log
+
+# Private notes (kept locally, not for the public repo)
+CLAUDE.md
+docs/WALKTHROUGH.md
