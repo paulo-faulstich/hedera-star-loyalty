@@ -1,7 +1,7 @@
 {
-  "name": "hashgraph",
+  "name": "hedera-star-loyalty",
   "version": "1.0.0",
-  "description": "",
+  "description": "Loyalty token prototype on Hedera testnet: HTS token with a protocol-level fee and an HCS audit log.",
   "scripts": {
     "connect": "node scripts/00-test-connection.js",
     "create-accounts": "node scripts/01-create-accounts.js",
@@ -16,8 +16,8 @@
     "web": "node server.js"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Paulo Faulstich",
+  "license": "MIT",
   "type": "module",
   "dependencies": {
     "@hashgraph/sdk": "^2.81.0",

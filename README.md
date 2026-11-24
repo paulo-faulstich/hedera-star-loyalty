@@ -1,12 +1,71 @@
-# Hedera Star Loyalty
+# Hedera STAR Loyalty
 
-A working loyalty token prototype on the Hedera testnet — fungible **STAR** with a 1% on-chain royalty, every event logged to a Hedera Consensus Service audit topic, and a persona-driven dashboard (Brand / Member / Platform) to interact with it live.
+**Loyalty points are a liability nobody outside the merchant can audit.** This prototype issues
+a loyalty token whose reward rule and audit trail are enforced by the network itself: a
+fungible **STAR** token on Hedera with a 1% protocol-level fee, every reward and redemption
+logged to a consensus-timestamped topic, and a dashboard to run it live.
+
+> **Status:** working prototype on Hedera **testnet**. A self-directed study project, not
+> production software, and not affiliated with Hedera or Hashgraph. Every behavior shown is a
+> real protocol primitive, not a contract simulation.
 
 https://github.com/user-attachments/assets/cbd723ff-b292-4036-a64a-e82653c36995
 
-Built to explore `@hashgraph/sdk` first-hand. Not production code — but every behavior is a real protocol primitive, not a contract simulation.
+## The problem
 
-## What it demonstrates
+Merchant loyalty runs on closed points systems. The merchant's database is the only record of
+what was issued, to whom and why, so customers, finance teams and auditors have to trust it.
+The usual Web3 answer is an ERC-20 token with reward logic in a Solidity contract, which moves
+the trust problem into custom code that has to be audited and pays variable gas on every use.
+
+The question this prototype tests: **can the reward rule and the audit trail be native to the
+protocol, with no contract code at all?**
+
+## What it showed
+
+Yes. The token, the fee and the audit log below are live on testnet and can be checked
+independently (verified against the public mirror node on 24 November 2026):
+
+| What | Evidence |
+|---|---|
+| STAR token, 10,000 fixed supply, 6 decimals | [Token 0.0.9015462](https://hashscan.io/testnet/token/0.0.9015462) |
+| 1% fractional fee, collected by the merchant, set with no contract | Fee schedule on the token page |
+| Reward of 15 STAR, with 0.15 STAR assessed to the merchant | [Transaction](https://hashscan.io/testnet/transaction/0.0.9004631%401779314020.434932184) |
+| Redemption of 7 STAR back to the merchant, with no fee assessed | Message 5 on the audit topic |
+| Five loyalty events logged with consensus timestamps | [Topic 0.0.9015468](https://hashscan.io/testnet/topic/0.0.9015468) |
+
+Three things only became clear by building it:
+
+- **A receipt does not prove the fee was collected.** The receipt returns status and IDs. Only
+  the transaction *record* carries `assessedCustomFees`, so fee verification has to read the record.
+- **Receiving a token is opt-in.** A Hedera account must associate a token before it can hold
+  it. Left visible, that step is the biggest onboarding risk for a consumer product.
+- **Governance is fixed at creation.** This token was created with only a fee-schedule key. It
+  has no admin, supply, freeze, KYC, wipe or pause key, so nobody can mint more, freeze a holder
+  or delete it. Keys left unset can never be added later.
+
+Testnet is reset from time to time. If the links above stop resolving, run the scripts to
+recreate everything.
+
+## Product thinking behind it
+
+The prototype came first. The product artifacts were written from what it demonstrated:
+**prototype → evidence → spec**.
+
+| Document | What it answers |
+|---|---|
+| [Problem frame](pm-operating-model/01-problem-frame.md) | The problem, who has it, why now |
+| [Hypotheses](pm-operating-model/02-hypotheses.md) | The bets, each with a kill criterion |
+| [PRD](pm-operating-model/03-prd.md) | Goals, non-goals, users, requirements |
+| [Epics & user stories](pm-operating-model/04-epics-user-stories.md) | The work as thin, demoable slices |
+| [Metrics](pm-operating-model/05-metrics.md) | North Star, input metrics, guardrails |
+| [Roadmap & prioritization](pm-operating-model/06-roadmap-prioritization.md) | Now / next / later and how it was sequenced |
+| [Technical design note](pm-operating-model/07-tech-spec-hip.md) | The three load-bearing technical decisions |
+
+One level up from the product: [Strategy memo: institutional tokenization is a product problem](strategy-memo.md),
+an outside-in thesis on where a tokenization product area should focus, scored against what has shipped.
+
+## What it demonstrates technically
 
 - **HTS (Hedera Token Service)** — native fungible token creation, no smart contract required
 - **Custom fees as a protocol primitive** — `CustomFractionalFee` enforced by consensus, not by contract code
@@ -84,6 +143,7 @@ Architecture: the browser has no private keys. It only POSTs amounts to the loca
 ├── .env.example               # template — copy to .env and fill in operator credentials
 ├── package.json
 ├── README.md
+├── pm-operating-model/        # problem frame, hypotheses, PRD, epics, metrics, roadmap, design note
 │
 ├── lib/                       # shared helpers (used by scripts and web app)
 │   ├── client.js              # buildClient() — testnet client + operator key loading
@@ -114,7 +174,7 @@ Architecture: the browser has no private keys. It only POSTs amounts to the loca
 
 - **One script per logical step** — easier to read and walk through than a single monolith
 - **ES modules** with top-level `await`
-- **No smart contracts, no frontend, no tests** — out of scope for a prototype
+- **No smart contracts, no tests** — out of scope for a prototype
 - **Comments only where Hedera behavior is non-obvious** — e.g., why the treasury must sign a token creation, or why the receipt is insufficient to verify a custom fee was collected
 - **Testnet only** — never mainnet
 
@@ -131,8 +191,20 @@ Architecture: the browser has no private keys. It only POSTs amounts to the loca
 
 The HTS model trades flexibility (you can't add arbitrary logic) for **predictability and explicit governance up-front**.
 
+## Limitations
+
+- Testnet only. Nothing here has been run on mainnet.
+- Three accounts and one token. It demonstrates the mechanics, not behavior at scale or cost under load.
+- Token association is visible. Hiding it behind onboarding is the top open product risk (see the PRD).
+- The dashboard server holds the keys locally. A real deployment needs custody and key management.
+- No automated tests.
+
 ## Resources
 
 - [Hedera SDK reference](https://docs.hedera.com/hedera/sdks-and-apis/sdks)
 - [HashScan testnet explorer](https://hashscan.io/testnet)
 - [Hedera portal (testnet account)](https://portal.hedera.com)
+
+---
+
+Built by [Paulo Faulstich](https://github.com/paulo-faulstich) · 2026 · [MIT License](LICENSE)
