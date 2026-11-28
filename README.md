@@ -11,9 +11,9 @@ logged to a consensus-timestamped topic, and a dashboard to run it live.
 
 ![Brand console: royalty earned, rewards issued, treasury balance and the member balance rebuilt from the HCS audit log](docs/screenshots/brand.png)
 
-Walkthrough video (recorded on the earlier interface; the flow is the same):
+Walkthrough of the interface, recorded on a snapshot of the real testnet state (27 Nov 2026):
 
-https://github.com/user-attachments/assets/cbd723ff-b292-4036-a64a-e82653c36995
+https://github.com/user-attachments/assets/e328a438-67b9-4926-955f-9371a4cb2b34
 
 ## The problem
 
