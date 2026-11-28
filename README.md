@@ -9,6 +9,10 @@ logged to a consensus-timestamped topic, and a dashboard to run it live.
 > production software, and not affiliated with Hedera or Hashgraph. Every behavior shown is a
 > real protocol primitive, not a contract simulation.
 
+![Brand console: royalty earned, rewards issued, treasury balance and the member balance rebuilt from the HCS audit log](docs/screenshots/brand.png)
+
+Walkthrough video (recorded on the earlier interface; the flow is the same):
+
 https://github.com/user-attachments/assets/cbd723ff-b292-4036-a64a-e82653c36995
 
 ## The problem
@@ -121,7 +125,7 @@ After running the scripts through `submit-message` at least once (so the token a
 npm run web
 ```
 
-Open `http://localhost:7373`. The dashboard has two interactive actions plus a live view:
+Open `http://localhost:7373`. The dashboard has four views (Home, Brand, Member, Platform), two interactive actions and a live read of the on-chain state:
 
 - **Reward customer** — operator → customer transfer. The 1% fractional fee is assessed and routed to merchant (neither party is exempt). Topup from merchant happens automatically if the operator pool is empty.
 - **Customer redeems** — customer → merchant transfer. **No fee is assessed**: merchant is both treasury and fee collector, so the receiver-side exemption applies. This is the counterpart that demonstrates the exemption rule.
@@ -131,7 +135,7 @@ The view below the actions pulls from the public **Hedera Mirror Node REST API**
 
 - Token metadata + custom-fee schedule from `/api/v1/tokens/:id`
 - Account balances (HBAR + STAR) from `/api/v1/accounts/:id`
-- Recent transfers with `assessed_custom_fees` from `/api/v1/transactions/:id` (the list endpoint omits it — only the detail endpoint includes the field)
+- Transfers with `assessed_custom_fees` from `/api/v1/transactions/:id`, looked up by the transaction id each audit event carries (the list endpoint omits the fee field and stopped returning the older transactions)
 - HCS messages from `/api/v1/topics/:id/messages`, base64-decoded to JSON
 
 Architecture: the browser has no private keys. It only POSTs amounts to the local Node server, which holds the keys and signs/submits transactions. Read paths bypass the server entirely and hit the public mirror node — same separation of concerns as a real loyalty backend.
@@ -167,7 +171,9 @@ Architecture: the browser has no private keys. It only POSTs amounts to the loca
 └── web/                       # interactive dashboard; reads from mirror node, writes via /api
     ├── index.html
     ├── app.js
-    └── style.css
+    ├── style.css
+    ├── snapshot.js            # testnet state captured on 27 Nov 2026, for viewing without the server
+    └── fonts/                 # Outfit and Geist Mono, self-hosted (SIL OFL)
 ```
 
 ## Conventions
